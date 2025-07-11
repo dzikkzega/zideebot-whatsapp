@@ -1,0 +1,16 @@
+{
+  "name": "zideebot-whatsapp",
+  "type": "web",
+  "env": "node",
+  "buildCommand": "npm install",
+  "startCommand": "node index.js",
+  "autoDeploy": true,
+  "branch": "main",
+  "healthCheckPath": "/health",
+  "envVars": [
+    {
+      "key": "NODE_ENV",
+      "value": "production"
+    }
+  ]
+}

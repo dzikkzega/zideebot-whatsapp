@@ -1,0 +1,16 @@
+version: 2
+services:
+  - name: zideebot
+    type: web
+    instance_type: nano
+    env:
+      - NODE_ENV=production
+    build:
+      command: npm install
+    run:
+      command: node index.js
+    regions:
+      - was
+    scaling:
+      min: 1
+      max: 1

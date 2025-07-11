@@ -95,6 +95,11 @@ client.initialize().catch(error => {
     process.exit(1);
 });
 
+// Start health check server untuk hosting
+if (process.env.NODE_ENV === 'production') {
+    require('./health-server');
+}
+
 // Event ketika ada pesan masuk
 client.on('message', async (message) => {
     console.log(`📨 Pesan dari ${message.from}: ${message.body}`);
