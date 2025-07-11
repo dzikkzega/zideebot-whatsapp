@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h4><i class="fab fa-whatsapp text-success"></i> Bot Dashboard</h4>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#overview" class="nav-link active" data-section="overview">
+                <i class="fas fa-tachometer-alt"></i> Overview
+            </a>
+            <a href="#messages" class="nav-link" data-section="messages">
+                <i class="fas fa-comments"></i> Messages
+            </a>
+            <a href="#send-message" class="nav-link" data-section="send-message">
+                <i class="fas fa-paper-plane"></i> Send Message
+            </a>
+            <a href="#broadcast" class="nav-link" data-section="broadcast">
+                <i class="fas fa-bullhorn"></i> Broadcast
+            </a>
+            <a href="#qr-code" class="nav-link" data-section="qr-code">
+                <i class="fas fa-qrcode"></i> QR Code
+            </a>
+            <a href="#settings" class="nav-link" data-section="settings">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+        </nav>
+    </div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="btn btn-link sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2>WhatsApp Bot Control Panel</h2>
+            </div>
+            
+            <div class="header-right">
+                <div class="theme-toggle-container">
+                    <span class="theme-toggle-label">🌞</span>
+                    <label class="theme-toggle">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="theme-slider"></span>
+                    </label>
+                    <span class="theme-toggle-label">🌙</span>
+                </div>
+                <div class="status-indicator">
+                    <span class="badge bg-secondary" id="connectionStatus">Connecting...</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" id="refreshBtn">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Sections -->
+        <main class="content">
+            <!-- Overview Section -->
+            <section id="overview-section" class="content-section active">
+                <div class="row mb-4">
+                    <!-- Status Cards -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Bot Status
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="botStatusText">
+                                            Loading...
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-robot fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Messages Today
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="messageCount">
+                                            0
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Active Chats
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="activeChats">
+                                            0
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Uptime
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="uptime">
+                                            0m
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Info -->
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">System Information</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Node.js Version:</strong> <span id="nodeVersion">-</span></p>
+                                        <p><strong>Memory Usage:</strong> <span id="memoryUsage">-</span></p>
+                                        <p><strong>Last Activity:</strong> <span id="lastActivity">-</span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Bot Start Time:</strong> <span id="startTime">-</span></p>
+                                        <p><strong>Gemini AI:</strong> <span id="geminiStatus">-</span></p>
+                                        <p><strong>Database:</strong> <span id="dbStatus">Connected</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+                            </div>
+                            <div class="card-body">
+                                <button class="btn btn-primary btn-block mb-2" id="testGeminiBtn">
+                                    <i class="fas fa-robot"></i> Test Gemini AI
+                                </button>
+                                <button class="btn btn-warning btn-block mb-2" id="restartBotBtn">
+                                    <i class="fas fa-redo"></i> Restart Bot
+                                </button>
+                                <button class="btn btn-info btn-block mb-2" id="showQrBtn">
+                                    <i class="fas fa-qrcode"></i> Show QR Code
+                                </button>
+                                <button class="btn btn-success btn-block" id="exportLogsBtn">
+                                    <i class="fas fa-download"></i> Export Logs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Recent Activity</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="recentActivity">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Type</th>
+                                        <th>From/To</th>
+                                        <th>Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">Loading recent activity...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Messages Section -->
+            <section id="messages-section" class="content-section">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Message History</h6>
+                        <button class="btn btn-sm btn-outline-primary" id="refreshMessagesBtn">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="message-container" id="messageContainer">
+                            <div class="text-center text-muted">Loading messages...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Send Message Section -->
+            <section id="send-message-section" class="content-section">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Send Message</h6>
+                    </div>
+                    <div class="card-body">
+                        <form id="sendMessageForm">
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" 
+                                       placeholder="628123456789 or 628123456789@c.us" required>
+                                <div class="form-text">Format: 628123456789 (without + or spaces)</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="messageText" class="form-label">Message</label>
+                                <textarea class="form-control" id="messageText" rows="4" 
+                                          placeholder="Type your message here..." required></textarea>
+                                <div class="form-text">Character count: <span id="charCount">0</span></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Broadcast Section -->
+            <section id="broadcast-section" class="content-section">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Broadcast Message</h6>
+                    </div>
+                    <div class="card-body">
+                        <form id="broadcastForm">
+                            <div class="mb-3">
+                                <label for="phoneNumbers" class="form-label">Phone Numbers</label>
+                                <textarea class="form-control" id="phoneNumbers" rows="4" 
+                                          placeholder="628123456789&#10;628987654321&#10;628111222333" required></textarea>
+                                <div class="form-text">One phone number per line. Format: 628123456789</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="broadcastMessage" class="form-label">Broadcast Message</label>
+                                <textarea class="form-control" id="broadcastMessage" rows="4" 
+                                          placeholder="Type your broadcast message here..." required></textarea>
+                                <div class="form-text">Character count: <span id="broadcastCharCount">0</span></div>
+                            </div>
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Warning:</strong> Be careful with broadcast messages. Use delays between messages to avoid being blocked by WhatsApp.
+                            </div>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-bullhorn"></i> Start Broadcast
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QR Code Section -->
+            <section id="qr-code-section" class="content-section">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">QR Code Scanner</h6>
+                    </div>
+                    <div class="card-body text-center">
+                        <div id="qrCodeContainer">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                QR code will appear here when bot needs authentication
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-3" id="requestQrBtn">
+                            <i class="fas fa-qrcode"></i> Request QR Code
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Bot Settings</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>API Configuration</h6>
+                                <div class="mb-3">
+                                    <label for="geminiApiKey" class="form-label">Gemini API Key</label>
+                                    <input type="password" class="form-control" id="geminiApiKey" 
+                                           placeholder="Your Gemini API Key">
+                                </div>
+                                <button class="btn btn-success mb-3" id="saveSettingsBtn">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Bot Configuration</h6>
+                                <div class="mb-3">
+                                    <label for="botPrefix" class="form-label">Command Prefix</label>
+                                    <input type="text" class="form-control" id="botPrefix" value="!">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="autoReply" class="form-label">Auto Reply</label>
+                                    <select class="form-select" id="autoReply">
+                                        <option value="enabled">Enabled</option>
+                                        <option value="disabled">Disabled</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
