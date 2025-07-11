@@ -67,11 +67,9 @@ Berikan jawaban yang informatif tapi tidak terlalu panjang untuk WhatsApp.`;
         
         const aiResponse = response.data.candidates[0].content.parts[0].text;
         
-        return `🤖 **Gemini AI**
+        return `🤖 **Zidee AI**
 
-${aiResponse}
-
-💡 *Powered by Google Gemini 2.0*`;
+${aiResponse}`;
         
     } catch (error) {
         console.error('Error with Gemini AI:', error);
@@ -343,9 +341,15 @@ async function testGeminiAPI() {
     }
 }
 
+// Alias untuk getAIResponse (untuk kompatibilitas dengan web dashboard)
+async function getAIResponse(message, context = '') {
+    return await chatWithGemini(message, context);
+}
+
 // Export functions
 module.exports = {
     chatWithGemini,
+    getAIResponse,
     generateCreative,
     translateText,
     setupGeminiAPI,

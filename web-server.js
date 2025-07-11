@@ -166,6 +166,37 @@ io.on('connection', (socket) => {
             socket.emit('qr-code', botStatus.qrCode);
         }
     });
+    
+    // AI Chat handler
+    socket.on('ai-chat', async (data) => {
+        console.log('🤖 AI Chat request received:', data.message);
+        
+        try {
+            // Import Gemini function
+            const { getAIResponse } = require('./gemini-ai');
+            
+            // Get AI response
+            const response = await getAIResponse(data.message);
+            
+            // Send response back to client
+            socket.emit('ai-chat-response', {
+                success: true,
+                response: response,
+                timestamp: moment().format('YYYY-MM-DD HH:mm:ss')
+            });
+            
+            console.log('🤖 AI response sent successfully');
+            
+        } catch (error) {
+            console.error('🤖 AI Chat error:', error);
+            
+            socket.emit('ai-chat-response', {
+                success: false,
+                error: error.message,
+                timestamp: moment().format('YYYY-MM-DD HH:mm:ss')
+            });
+        }
+    });
 });
 
 // Bot event listeners for real-time updates
