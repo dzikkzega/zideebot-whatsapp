@@ -1,12 +1,17 @@
 version: 2
 services:
-  - name: zideebot
+  - name: zideebot-whatsapp
     type: web
     instance_type: nano
+    ports:
+      - port: 8000
+        protocol: http
     env:
       - NODE_ENV=production
+      - PORT=8000
     build:
-      command: npm install
+      commands:
+        - npm install
     run:
       command: node index.js
     regions:
@@ -14,3 +19,7 @@ services:
     scaling:
       min: 1
       max: 1
+    health_check:
+      http:
+        path: /health
+        port: 8000

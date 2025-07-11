@@ -10,7 +10,7 @@
     "dev-web": "nodemon web-server.js",
     "full": "node launcher.js",
     "test": "node test.js",
-    "build": "echo 'No build needed'",
+    "build": "npm install",
     "deploy": "node index.js"
   },
   "keywords": [
